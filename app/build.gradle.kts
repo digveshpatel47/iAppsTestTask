@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
-    //alias(libs.plugins.devtools.ksp)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -40,39 +40,37 @@ android {
 }
 
 dependencies {
-    // core
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
+
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    // retrofit okhttp
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+    implementation("com.google.code.gson:gson:2.10.1")
     // ---------------------
 
     // koin
-    implementation (libs.koin.core)
-    implementation (libs.koin.android)
-    implementation (libs.koin.androidx.viewmodel)
-    testImplementation (libs.koin.test)
+    implementation("io.insert-koin:koin-core:2.2.2")
+    implementation("io.insert-koin:koin-android:2.2.2")
+    implementation("io.insert-koin:koin-androidx-viewmodel:2.2.2")
+    testImplementation("io.insert-koin:koin-test:2.2.2")
     // ---------------------
 
     // room
-    implementation (libs.androidx.room.runtime)
-    implementation (libs.androidx.room.coroutines)
-    implementation (libs.androidx.room.rxjava2)
-    annotationProcessor (libs.androidx.room.compiler)
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-coroutines:2.1.0-alpha04")
+    implementation("androidx.room:room-rxjava2:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
     // ---------------------
 
-    // retrofit okhttp
-    implementation (libs.retrofit2.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.okhttp)
-    implementation (libs.logging.interceptor)
-    implementation (libs.retrofit2.kotlin.coroutines.adapter)
-    implementation (libs.gson)
-    // ---------------------
 
-    // testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    // ---------------------
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
