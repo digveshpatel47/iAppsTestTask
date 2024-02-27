@@ -1,8 +1,8 @@
 package com.iapps.ui.photo
 
 import android.os.Bundle
-import android.widget.Toast
 import com.iapps.databinding.ActivityPhotoBinding
+import com.iapps.exts.toPhotoModel
 import com.iapps.ui.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
@@ -24,6 +24,7 @@ class PhotoActivity : BaseActivity() {
     }
     private fun initListener() {
         viewModel.fetchPhotoItems()
+       // viewModel.fetchSortedPhotoItems()
     }
 
     private fun initObserve() {

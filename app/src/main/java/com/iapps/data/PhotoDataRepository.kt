@@ -1,14 +1,19 @@
-package com.iapps.data.remote.photo
+package com.iapps.data
 
 import com.iapps.common.HTTP_ERROR
 import com.iapps.common.NO_INTERNET_CONNECTION
-import com.iapps.common.UNKNOWN_ERROR
-import com.iapps.data.local.photo.PhotoDao
-import com.iapps.data.remote.base.Result
+import com.iapps.common.SOMETHING_WENT_WRONG
+import com.iapps.data.photo.local.PhotoDao
+import com.iapps.data.photo.local.PhotoEntity
+import com.iapps.data.photo.remote.base.Result
+import com.iapps.data.photo.remote.photo.PhotoApiService
+import com.iapps.data.photo.remote.photo.response.PhotoResponse
 import com.iapps.domain.photo.PhotoRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -27,13 +32,23 @@ class PhotoDataRepository(private val photoApiService: PhotoApiService, private 
             emit(Result.Error("$HTTP_ERROR ${e.code()}"))
         } catch (e: Exception) {
             // Handle other exceptions
-            emit(Result.Error("$UNKNOWN_ERROR ${e.message}"))
+            emit(Result.Error(SOMETHING_WENT_WRONG))
         }
     }.flowOn(Dispatchers.IO)
 
-    /*override suspend fun insertUser(userEntity: UserEntity) {
-        withContext(Dispatchers.IO) {
-            photoDao.insertUser(userEntity)
-        }
+    override suspend fun insertAll(userEntity: List<PhotoEntity>) {
+        photoDao.insertAll(userEntity)
+    }
+
+    override suspend fun getPhotoItemsSortedByPublished(): Flow<List<PhotoEntity>> {
+        TODO("Not yet implemented")
+    }
+
+    /*override suspend fun insertAll(userEntity: List<PhotoEntity>) {
+
+    }
+
+    override suspend fun getPhotoItemsSortedByPublished(): Flow<List<PhotoEntity>> {
+       //
     }*/
 }

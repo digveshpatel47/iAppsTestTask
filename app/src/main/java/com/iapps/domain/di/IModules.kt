@@ -5,12 +5,14 @@ import androidx.room.Room
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.iapps.data.local.photo.PhotoDao
-import com.iapps.data.local.photo.PhotoDatabase
-import com.iapps.data.remote.photo.PhotoApiService
-import com.iapps.data.remote.photo.PhotoDataRepository
+import com.iapps.data.photo.local.PhotoDao
+import com.iapps.data.photo.local.PhotoDatabase
+import com.iapps.data.photo.remote.photo.PhotoApiService
+import com.iapps.data.PhotoDataRepository
+import com.iapps.domain.photo.GetPhotoFromLocalUseCase
 import com.iapps.domain.photo.PhotoRepository
-import com.iapps.domain.photo.PhotoUseCase
+import com.iapps.domain.photo.GetPhotoFromRemoteUseCase
+import com.iapps.domain.photo.InsertPhotoInLocalUseCase
 import com.iapps.ui.photo.PhotoViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
@@ -45,28 +47,37 @@ val apiModules = module {
 }
 
 val repositoryModules = module {
-    single { provideLoginRepo(get(),get()) }
+    single { providePhotoRepository(get(),get()) }
 }
 val useCaseModules = module {
-    single { providePhotoUseCase(get()) }
+    single { providePhotoFromLocalUseCase(get()) }
+    single { providePhotoFromRemoteUseCase(get()) }
+    single { provideInsertPhotoUseCase(get()) }
 }
 
 @OptIn(KoinApiExtension::class)
 val viewModelModules = module {
     viewModel {
-        PhotoViewModel(get())
+        PhotoViewModel(get(),get(),get())
     }
 }
 
-private fun provideLoginRepo(photoApiService: PhotoApiService, photoDao: PhotoDao): PhotoRepository {
+private fun providePhotoRepository(photoApiService: PhotoApiService, photoDao: PhotoDao): PhotoRepository {
     return PhotoDataRepository(photoApiService,photoDao)
 }
-private fun providePhotoUseCase(photoRepository: PhotoRepository): PhotoUseCase {
-    return PhotoUseCase(photoRepository)
+private fun providePhotoFromRemoteUseCase(photoRepository: PhotoRepository): GetPhotoFromRemoteUseCase {
+    return GetPhotoFromRemoteUseCase(photoRepository)
+}
+private fun providePhotoFromLocalUseCase(photoRepository: PhotoRepository): GetPhotoFromLocalUseCase {
+    return GetPhotoFromLocalUseCase(photoRepository)
+}
+private fun provideInsertPhotoUseCase(photoRepository: PhotoRepository): InsertPhotoInLocalUseCase {
+    return InsertPhotoInLocalUseCase(photoRepository)
 }
 
 
-private fun providePhotoApiService(retrofit: Retrofit): PhotoApiService = retrofit.create(PhotoApiService::class.java)
+private fun providePhotoApiService(retrofit: Retrofit): PhotoApiService = retrofit.create(
+    PhotoApiService::class.java)
 
 
 private fun providePhotoDatabase(application: Application): PhotoDatabase {

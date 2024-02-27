@@ -1,4 +1,4 @@
-package com.iapps.data.remote.photo.response
+package com.iapps.data.photo.remote.photo.response
 
 import com.google.gson.annotations.SerializedName
 
