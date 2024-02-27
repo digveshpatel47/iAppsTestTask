@@ -39,13 +39,39 @@ android {
 }
 
 dependencies {
-
+    // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
+    // ---------------------
 
+    // koin
+    implementation (libs.koin.core)
+    implementation (libs.koin.android)
+    implementation (libs.koin.androidx.viewmodel)
+    testImplementation (libs.koin.test)
+    // ---------------------
+
+    // room
+    implementation (libs.androidx.room.runtime)
+    implementation (libs.androidx.room.coroutines)
+    implementation (libs.androidx.room.rxjava2)
+    //kapt ("androidx.room:room-compiler:2.6.1")
+    // ---------------------
+
+    // retrofit okhttp
+    implementation (libs.retrofit2.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.okhttp)
+    implementation (libs.logging.interceptor)
+    implementation (libs.retrofit2.kotlin.coroutines.adapter)
+    implementation (libs.gson)
+    // ---------------------
+
+    // testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // ---------------------
 }
