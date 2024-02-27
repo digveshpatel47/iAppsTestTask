@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    //alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -57,7 +58,7 @@ dependencies {
     implementation (libs.androidx.room.runtime)
     implementation (libs.androidx.room.coroutines)
     implementation (libs.androidx.room.rxjava2)
-    //kapt ("androidx.room:room-compiler:2.6.1")
+    annotationProcessor (libs.androidx.room.compiler)
     // ---------------------
 
     // retrofit okhttp

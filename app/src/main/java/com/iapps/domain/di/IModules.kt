@@ -11,7 +11,7 @@ import com.iapps.data.remote.photo.PhotoApiService
 import com.iapps.data.remote.photo.PhotoDataRepository
 import com.iapps.domain.photo.PhotoRepository
 import com.iapps.domain.photo.PhotoUseCase
-import com.iapps.ui.PhotoViewModel
+import com.iapps.ui.photo.PhotoViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -25,8 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-private const val BASE_URL = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=cat&nojsoncallback=1"
-private const val USER_DATABASE = "IAppsDatabase"
+private const val BASE_URL = "https://api.flickr.com/services/"
+private const val I_APPS_DATABASE = "IAppsDatabase"
 
 val databaseModule = module {
     single { providePhotoDatabase(androidApplication()) }
@@ -54,7 +54,7 @@ val useCaseModules = module {
 @OptIn(KoinApiExtension::class)
 val viewModelModules = module {
     viewModel {
-        PhotoViewModel(/*get(),get()*/)
+        PhotoViewModel(get())
     }
 }
 
@@ -70,7 +70,7 @@ private fun providePhotoApiService(retrofit: Retrofit): PhotoApiService = retrof
 
 
 private fun providePhotoDatabase(application: Application): PhotoDatabase {
-    return Room.databaseBuilder(application, PhotoDatabase::class.java, USER_DATABASE)
+    return Room.databaseBuilder(application, PhotoDatabase::class.java, I_APPS_DATABASE)
         .fallbackToDestructiveMigration()
         .build()
 }
