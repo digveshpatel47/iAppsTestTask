@@ -69,6 +69,8 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     // ---------------------
 
+    // glide- image loading
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

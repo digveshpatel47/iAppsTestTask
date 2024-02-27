@@ -2,19 +2,19 @@ package com.iapps.ui.photo
 
 import android.os.Bundle
 import android.widget.Toast
-import com.iapps.databinding.ActivityMainBinding
+import com.iapps.databinding.ActivityPhotoBinding
 import com.iapps.ui.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
 
 @OptIn(KoinApiExtension::class)
-class MainActivity : BaseActivity() {
+class PhotoActivity : BaseActivity() {
     private val viewModel by viewModel<PhotoViewModel>()
-    private lateinit var binding: ActivityMainBinding
-
+    private lateinit var binding: ActivityPhotoBinding
+    private lateinit var adapter: PhotoAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
@@ -28,7 +28,8 @@ class MainActivity : BaseActivity() {
 
     private fun initObserve() {
         viewModel.photoItems.observe(this) {
-            Toast.makeText(this, it.size, Toast.LENGTH_SHORT).show()
+            adapter = PhotoAdapter(context = this, photoItems = it)
+            binding.rvPhoto.adapter = adapter
         }
     }
 }

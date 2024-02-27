@@ -2,8 +2,6 @@ package com.iapps.data.remote.photo
 
 import com.iapps.common.HTTP_ERROR
 import com.iapps.common.NO_INTERNET_CONNECTION
-import com.iapps.common.SOMETHING_WENT_WRONG
-import com.iapps.common.STATUS_CODE_SUCCESS
 import com.iapps.common.UNKNOWN_ERROR
 import com.iapps.data.local.photo.PhotoDao
 import com.iapps.data.remote.base.Result
@@ -18,17 +16,8 @@ class PhotoDataRepository(private val photoApiService: PhotoApiService, private 
     PhotoRepository {
     override suspend fun fetchPhotoItems() = flow {
         try {
-            photoApiService.getPhotos().apply {
-                val data = body()?.data
-                if (isSuccessful && data != null) {
-                    if (body()?.errorCode == STATUS_CODE_SUCCESS) {
-                        emit(Result.Success(data))
-                    } else {
-                        emit(Result.Error(body()?.errorMessage))
-                    }
-                } else {
-                    emit(Result.Error(SOMETHING_WENT_WRONG))
-                }
+            photoApiService.fetchPhotoItems().apply {
+                emit(Result.Success(_data = this))
             }
         } catch (e: IOException) {
             // Handle IOException, no internet connection

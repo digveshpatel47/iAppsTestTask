@@ -3,15 +3,24 @@ package com.iapps.data.remote.photo.response
 import com.google.gson.annotations.SerializedName
 
 data class PhotoResponse(
-    @SerializedName("items") val items: List<PhotoItemResponse>
+    @SerializedName("title") var title: String? = null,
+    @SerializedName("link") var link: String? = null,
+    @SerializedName("description") var description: String? = null,
+    @SerializedName("modified") var modified: String? = null,
+    @SerializedName("generator") var generator: String? = null,
+    @SerializedName("items") var items: ArrayList<PhotoItemResponse> = arrayListOf()
 )
 
 data class PhotoItemResponse(
-    @SerializedName("title") val title: String,
-    @SerializedName("media") val media: Media,
-    @SerializedName("description") val description: String,
-    @SerializedName("published") val published: String,
-    @SerializedName("link") val link: String
+    @SerializedName("title") var title: String? = null,
+    @SerializedName("link") var link: String? = null,
+    @SerializedName("media") var media: Media? = null,
+    @SerializedName("date_taken") var dateTaken: String? = null,
+    @SerializedName("description") var description: String? = null,
+    @SerializedName("published") var published: String? = null,
+    @SerializedName("author") var author: String? = null,
+    @SerializedName("author_id") var authorId: String? = null,
+    @SerializedName("tags") var tags: String? = null
 )
 
 data class Media(
