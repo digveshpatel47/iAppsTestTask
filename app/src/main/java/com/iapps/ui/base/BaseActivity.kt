@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.koin.core.component.KoinApiExtension
 
+
 @OptIn(KoinApiExtension::class)
 open class BaseActivity : AppCompatActivity() {
     private var mViewModel: BaseViewModel? = null

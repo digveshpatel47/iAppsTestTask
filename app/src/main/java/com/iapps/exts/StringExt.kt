@@ -1,5 +1,6 @@
 package com.iapps.exts
 
+import android.text.Html
 import android.util.Log
 
 
@@ -17,4 +18,6 @@ fun String.printLog(type: String, tag: String) {
         LOG_TYPE_ERROR -> Log.e(tag, "$type $this")
     }
 }
+
+fun String?.fromHtml()= Html.fromHtml(this, Html.FROM_HTML_MODE_COMPACT)!!
 

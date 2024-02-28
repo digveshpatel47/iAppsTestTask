@@ -1,4 +1,4 @@
-package com.iapps.data.photo.remote.base
+package com.iapps.data.base
 
 enum class ApiStatus{
     SUCCESS,

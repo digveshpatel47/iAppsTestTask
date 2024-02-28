@@ -7,7 +7,6 @@ import com.iapps.exts.LOG_TYPE_INFO
 import com.iapps.exts.printLog
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
-
 @KoinApiExtension
 abstract class BaseViewModel : ViewModel(), KoinComponent {
 

@@ -1,5 +1,8 @@
-package com.iapps.data.photo.remote.photo.response
+package com.iapps.data.photo.remote.response
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class PhotoResponse(
@@ -8,10 +11,11 @@ data class PhotoResponse(
     @SerializedName("description") var description: String? = null,
     @SerializedName("modified") var modified: String? = null,
     @SerializedName("generator") var generator: String? = null,
-    @SerializedName("items") var items: ArrayList<PhotoItemResponse> = arrayListOf()
+    @SerializedName("items") var items: ArrayList<PhotoModel> = arrayListOf()
 )
 
-data class PhotoItemResponse(
+@Entity
+data class PhotoModel(
     @SerializedName("title") var title: String? = null,
     @SerializedName("link") var link: String? = null,
     @SerializedName("media") var media: Media? = null,
@@ -24,5 +28,5 @@ data class PhotoItemResponse(
 )
 
 data class Media(
-    @SerializedName("m") val m: String
+    @SerializedName("m") val m: String?
 )

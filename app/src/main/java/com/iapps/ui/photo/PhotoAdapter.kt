@@ -1,45 +1,57 @@
 package com.iapps.ui.photo
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.iapps.data.photo.remote.response.PhotoModel
 import com.iapps.databinding.ItemPhotoBinding
-import com.iapps.models.PhotoModel
+import com.iapps.exts.fromHtml
+import com.iapps.exts.loadImage
 
-class PhotoAdapter(private val context: Context, private val photoItems: List<PhotoModel>) : RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
+class PhotoAdapter : ListAdapter<PhotoModel, PhotoAdapter.DataViewHolder>(Companion) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemPhotoBinding.inflate(layoutInflater)
-        return PhotoViewHolder(binding)
+        return DataViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
+        holder.bind()
+    }
 
-        val photoItem = photoItems[position]
-        // Bind data to views
-        holder.bind(photoItem)
-        holder.itemView.setOnClickListener {
-            // Handle item click
-            val uri = Uri.parse(photoItem.link)
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            context.startActivity(intent)
+    inner class DataViewHolder(private val binding: ItemPhotoBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind() {
+            val item = getItem(adapterPosition)
+            binding.ivImage.loadImage(binding.root.context, item.media?.m)
+            binding.tvDescription.text =item.description?.fromHtml()
+            binding.cvMain.setOnClickListener {
+                try {
+                    it.context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW, Uri.parse(item.link)
+                        ), null
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 
-    override fun getItemCount(): Int {
-        return photoItems.size
-    }
+    companion object : DiffUtil.ItemCallback<PhotoModel>() {
+        override fun areItemsTheSame(oldItem: PhotoModel, newItem: PhotoModel): Boolean {
+            return oldItem == newItem
+        }
 
-    class PhotoViewHolder(private val binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(photoModel: PhotoModel){
-            Glide.with(binding.root).load(photoModel.imageUrl).into(binding.ivImage)
-            binding.tvDescription.text = Html.fromHtml(photoModel.description, Html.FROM_HTML_MODE_COMPACT)
+        override fun areContentsTheSame(oldItem: PhotoModel, newItem: PhotoModel): Boolean {
+            return oldItem.title == newItem.title
         }
     }
+
 }

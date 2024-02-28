@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -45,32 +45,32 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.activity:activity-ktx:1.8.2")
 
     // retrofit okhttp
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:4.10.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     // ---------------------
 
+
+
     // koin
-    implementation("io.insert-koin:koin-core:2.2.2")
-    implementation("io.insert-koin:koin-android:2.2.2")
-    implementation("io.insert-koin:koin-androidx-viewmodel:2.2.2")
-    testImplementation("io.insert-koin:koin-test:2.2.2")
+    implementation ("io.insert-koin:koin-core:2.2.2")
+    implementation ("io.insert-koin:koin-android:2.2.2")
+    implementation ("io.insert-koin:koin-androidx-viewmodel:2.2.2")
+    testImplementation ("io.insert-koin:koin-test:2.2.2")
     // ---------------------
 
     // room
     implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-coroutines:2.1.0-alpha04")
-    implementation("androidx.room:room-rxjava2:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-common:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
     // ---------------------
 
     // glide- image loading
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

@@ -1,25 +1,25 @@
-package com.iapps.data
+package com.iapps.data.photo
 
 import com.iapps.common.HTTP_ERROR
 import com.iapps.common.NO_INTERNET_CONNECTION
 import com.iapps.common.SOMETHING_WENT_WRONG
+import com.iapps.data.base.Result
 import com.iapps.data.photo.local.PhotoDao
 import com.iapps.data.photo.local.PhotoEntity
-import com.iapps.data.photo.remote.base.Result
-import com.iapps.data.photo.remote.photo.PhotoApiService
-import com.iapps.data.photo.remote.photo.response.PhotoResponse
-import com.iapps.domain.photo.PhotoRepository
+import com.iapps.data.photo.remote.PhotoApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-class PhotoDataRepository(private val photoApiService: PhotoApiService, private val photoDao: PhotoDao):
-    PhotoRepository {
-    override suspend fun fetchPhotoItems() = flow {
+
+class PhotoDataRepository(
+    private val photoApiService: PhotoApiService,
+    private val photoDao: PhotoDao
+) {
+    suspend fun fetchPhotoItems() = flow {
         try {
             photoApiService.fetchPhotoItems().apply {
                 emit(Result.Success(_data = this))
@@ -36,19 +36,14 @@ class PhotoDataRepository(private val photoApiService: PhotoApiService, private 
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun insertAll(userEntity: List<PhotoEntity>) {
+    suspend fun insertAll(userEntity: List<PhotoEntity>) {
+        photoDao.deleteAll()
         photoDao.insertAll(userEntity)
     }
 
-    override suspend fun getPhotoItemsSortedByPublished(): Flow<List<PhotoEntity>> {
-        TODO("Not yet implemented")
+    fun getPhotoItemsSortedByPublished(): Flow<MutableList<PhotoEntity>> {
+        return photoDao.getAllSortedByPublished()
     }
 
-    /*override suspend fun insertAll(userEntity: List<PhotoEntity>) {
 
-    }
-
-    override suspend fun getPhotoItemsSortedByPublished(): Flow<List<PhotoEntity>> {
-       //
-    }*/
 }
