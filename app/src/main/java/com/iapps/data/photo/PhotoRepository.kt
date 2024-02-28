@@ -14,8 +14,7 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import java.io.IOException
 
-
-class PhotoDataRepository(
+class PhotoRepository(
     private val photoApiService: PhotoApiService,
     private val photoDao: PhotoDao
 ) {

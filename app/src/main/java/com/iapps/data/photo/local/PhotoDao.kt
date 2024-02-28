@@ -12,7 +12,7 @@ interface PhotoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(photoItems: List<PhotoEntity>)
 
-    @Query("SELECT * FROM photoentity ORDER BY published DESC")
+    @Query("SELECT * FROM photoentity ORDER BY published")
     fun getAllSortedByPublished(): Flow<MutableList<PhotoEntity>>
 
     @Query("delete from photoentity")

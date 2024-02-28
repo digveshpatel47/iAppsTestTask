@@ -12,7 +12,6 @@ import com.iapps.databinding.ItemPhotoBinding
 import com.iapps.exts.fromHtml
 import com.iapps.exts.loadImage
 
-
 class PhotoAdapter : ListAdapter<PhotoModel, PhotoAdapter.DataViewHolder>(Companion) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

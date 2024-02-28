@@ -2,7 +2,7 @@ package com.iapps.ui.photo
 
 import androidx.lifecycle.viewModelScope
 import com.iapps.data.base.Result
-import com.iapps.data.photo.PhotoDataRepository
+import com.iapps.data.photo.PhotoRepository
 import com.iapps.data.photo.local.PhotoEntity
 import com.iapps.data.photo.remote.response.PhotoModel
 import com.iapps.exts.photoEntityListToPhotoModelList
@@ -19,13 +19,10 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
-class PhotoViewModel (
-    private val repository: PhotoDataRepository,
-) : BaseViewModel() {
+class PhotoViewModel(private val repository: PhotoRepository) : BaseViewModel() {
 
     private val _photoItems = MutableSharedFlow<List<PhotoModel>>(1)
     val photoItems = _photoItems.asSharedFlow()
-
 
     fun fetchPhotoItems() {
         viewModelScope.launch {
@@ -59,7 +56,10 @@ class PhotoViewModel (
     fun fetchSortedPhotoItems() {
         viewModelScope.launch {
             repository.getPhotoItemsSortedByPublished().flowOn(Dispatchers.IO)
-                .collectLatest {
+                .catch {
+                    _errorMessage.value = it.message
+                    _progress.value = false
+                } .collectLatest {
                     _photoItems.emit(it.photoEntityListToPhotoModelList())
                 }
         }

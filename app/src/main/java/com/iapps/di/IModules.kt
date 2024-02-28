@@ -7,7 +7,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.iapps.common.BASE_URL
 import com.iapps.common.I_APPS_DATABASE
-import com.iapps.data.photo.PhotoDataRepository
+import com.iapps.data.photo.PhotoRepository
 import com.iapps.data.photo.local.PhotoDao
 import com.iapps.data.photo.local.PhotoDatabase
 import com.iapps.data.photo.remote.PhotoApiService
@@ -55,8 +55,8 @@ val viewModelModules = module {
 private fun providePhotoRepository(
     photoApiService: PhotoApiService,
     photoDao: PhotoDao
-): PhotoDataRepository {
-    return PhotoDataRepository(photoApiService, photoDao)
+): PhotoRepository {
+    return PhotoRepository(photoApiService, photoDao)
 }
 
 

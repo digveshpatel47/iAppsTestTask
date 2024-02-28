@@ -1,8 +1,5 @@
 package com.iapps.data.photo.remote.response
 
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class PhotoResponse(
@@ -14,7 +11,6 @@ data class PhotoResponse(
     @SerializedName("items") var items: ArrayList<PhotoModel> = arrayListOf()
 )
 
-@Entity
 data class PhotoModel(
     @SerializedName("title") var title: String? = null,
     @SerializedName("link") var link: String? = null,
