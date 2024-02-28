@@ -1,6 +1,7 @@
 package com.iapps.ui.photo
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.iapps.databinding.ActivityPhotoBinding
 import com.iapps.ui.base.BaseActivity
@@ -19,7 +20,6 @@ class PhotosActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
         initViewModel(viewModel)
         initObserve()
         init()
@@ -35,7 +35,14 @@ class PhotosActivity : BaseActivity() {
     private fun initObserve() {
         lifecycleScope.launch {
             viewModel.photoItems.collectLatest { response ->
-                photoAdapter.submitList(response)
+                if(response.isNotEmpty()){
+                    photoAdapter.submitList(response)
+                    binding.rvPhoto.visibility=View.VISIBLE
+                    binding.tvEmptyList.visibility=View.GONE
+                }else {
+                    binding.rvPhoto.visibility=View.GONE
+                    binding.tvEmptyList.visibility=View.VISIBLE
+                }
             }
         }
     }
